@@ -5,117 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Klasana Express Proposal Slider</title>
   <style>
-    :root {
-      --brand-green: #2e7d32;
-      --brand-dark:  #1f2933;
-      --brand-light: #f5f7fa;
-      --accent-gold: #d8a24a;
-      --border-soft: #e0e6ed;
-    }
+:root {
+  --brand-green: #2e7d32;
+  --brand-dark: #1f2933;
+  --brand-light: #f5f7fa;
+  --accent-gold: #d8a24a;
+  --border-soft: #e0e6ed;
+  --color-bg-primary: #f5f7fa;
+  --color-bg-secondary: #ffffff;
+  --color-text-primary: #1f2933;
+  --color-text-secondary: #626c7c;
+  --color-accent: #2e7d32;
+  --color-accent-hover: #1b5e20;
+  --color-border: #e0e6ed;
+  --color-card-bg: #ffffff;
+}
 
-    * {
-      box-sizing: border-box;
-    }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --brand-green: #32b8c6;
+    --brand-dark: #f5f5f5;
+    --brand-light: #1f2121;
+    --color-bg-primary: #1f2933;
+    --color-bg-secondary: #2d3748;
+    --color-text-primary: #f5f7fa;
+    --color-text-secondary: #9aa5b1;
+    --color-accent: #2e7d32;
+    --color-accent-hover: #4caf50;
+    --color-border: #4a5568;
+    --color-card-bg: #2d3748;
+  }
+}
 
-    
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { 
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif; 
+  background: var(--brand-light); 
+  color: var(--brand-dark); 
+  line-height: 1.6; 
+  overflow-x: hidden; 
+}
 
-        .nav-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: var(--color-bg-secondary);
-            border-bottom: 1px solid var(--color-border);
-            z-index: 1000;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
+.nav-container {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+  z-index: 1000;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
 
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.nav-content {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+}
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--brand-green);
-            text-decoration: none;
-        }
+.logo {
+  font-size: 1.5rem; font-weight: 700;
+  color: var(--brand-green); text-decoration: none;
+}
 
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 0;
-        }
+.nav-menu {
+  display: flex; list-style: none; gap: 0;
+}
 
-        .nav-item {
-            padding: 0.75rem 1.5rem;
-            color: var(--color-text-primary);
-            text-decoration: none;
-            font-weight: 500;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
+.nav-item {
+  padding: 0.75rem 1.5rem;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
 
-        .nav-item:hover {
-            background: var(--color-bg-primary);
-            color: var(--color-accent);
-            border-left: 3px solid var(--color-accent);
-        }
+.nav-item:hover {
+  background: var(--color-bg-primary);
+  color: var(--color-accent);
+  border-left: 3px solid var(--color-accent);
+}
 
-        .nav-item.active {
-            background: var(--color-accent);
-            color: white;
-            border-left: 3px solid white;
-        }
+.nav-item.active {
+  background: var(--color-accent);
+  color: white;
+  border-left: 3px solid white;
+}
 
-        .mobile-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--color-text-primary);
-        }
+.mobile-toggle {
+  display: none; background: none; border: none;
+  font-size: 1.5rem; cursor: pointer;
+  color: var(--color-text-primary);
+}
 
-        .main-content {
-            margin-top: 80px;
-            padding: 2rem;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+.main-content {
+  margin-top: 80px; padding: 2rem;
+  max-width: 1200px; margin-left: auto; margin-right: auto;
+}
 
-        @media (max-width: 768px) {
-            .nav-menu {
-                position: fixed;
-                top: 80px;
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - 80px);
-                background: var(--color-bg-secondary);
-                flex-direction: column;
-                padding: 2rem;
-                transition: left 0.3s ease;
-            }
-
-            .nav-menu.open {
-                left: 0;
-            }
-
-            .mobile-toggle {
-                display: block;
-            }
-
-            .nav-container {
-                padding: 1rem;
-            }
-        }
+@media (max-width: 768px) {
+  .nav-menu {
+    position: fixed; top: 80px; left: -100%; width: 100%;
+    height: calc(100vh - 80px); background: var(--color-bg-secondary);
+    flex-direction: column; padding: 2rem;
+    transition: left 0.3s ease;
+  }
+  .nav-menu.open { left: 0; }
+  .mobile-toggle { display: block; }
+  .nav-container { padding: 1rem; }
+}
 
     body {
       margin: 0;
@@ -370,19 +367,19 @@
   </style>
 </head>
 <body>
-  <nav class="nav-container">
-        <div class="nav-content">
-            <a href="index.html" class="logo"></a>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html" class="nav-item active" data-page="index">Home</a></li>
-                <li><a href="proposal.html" class="nav-item" data-page="proposal">Proposal</a></li>
-                <li><a href="roadmap.html" class="nav-item" data-page="roadmap">Roadmap</a></li>
-                <li><a href="dashboard.html" class="nav-item" data-page="dashboard">Dashboard</a></li>
-                <li><a href="add-property.html" class="nav-item" data-page="add-property">Add Property</a></li>
-            </ul>
-            <button class="mobile-toggle" id="mobileToggle">☰</button>
-        </div>
-    </nav>
+<nav class="nav-container">
+  <div class="nav-content">
+    <a href="index.html" class="logo">Klasana Express</a>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="index.html" class="nav-item active" data-page="index">Home</a></li>
+      <li><a href="proposal.html" class="nav-item" data-page="proposal">Proposal</a></li>
+      <li><a href="roadmap.html" class="nav-item" data-page="roadmap">Roadmap</a></li>
+      <li><a href="dashboard.html" class="nav-item" data-page="dashboard">Dashboard</a></li>
+      <li><a href="add-property.html" class="nav-item" data-page="add-property">Add Property</a></li>
+    </ul>
+    <button class="mobile-toggle" id="mobileToggle">☰</button>
+  </div>
+</nav>
   <div class="ke-page">
     <header class="ke-header">
       <div class="ke-logo-slot">
@@ -1233,5 +1230,19 @@
       </div>
     </main>
   </div>
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Set active nav item based on URL
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.page === currentPage.replace('.html', ''));
+  });
+
+  // Mobile menu toggle
+  document.getElementById('mobileToggle').addEventListener('click', () => {
+    document.getElementById('navMenu').classList.toggle('open');
+  });
+});
+</script>
 </body>
 </html>
