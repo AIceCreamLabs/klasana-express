@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Klasana Express – Krabi Homes Under 7M</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --brand-green: #2e7d32;
+      --brand-dark: #1f2933;
+      --brand-light: #f5f7fa;
+      --accent-gold: #d8a24a;
+      --border-soft: #e0e6ed;
+      --color-bg-primary: #f5f7fa;
+      --color-bg-secondary: #ffffff;
+      --color-text-primary: #1f2933;
+      --color-text-secondary: #626c7c;
+      --color-accent: #2e7d32;
+      --color-accent-hover: #1b5e20;
+      --color-border: #e0e6ed;
+      --color-card-bg: #ffffff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-bg-primary: #1f2933;
+        --color-bg-secondary: #2d3748;
+        --color-text-primary: #f5f7fa;
+        --color-text-secondary: #9aa5b1;
+        --color-accent: #2e7d32;
+        --color-accent-hover: #4caf50;
+        --color-border: #4a5568;
+        --color-card-bg: #2d3748;
+      }
+    }
+    
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    
+
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--color-bg-secondary);
+            border-bottom: 1px solid var(--color-border);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--brand-green);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0;
+        }
+
+        .nav-item {
+            padding: 0.75rem 1.5rem;
+            color: var(--color-text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover {
+            background: var(--color-bg-primary);
+            color: var(--color-accent);
+            border-left: 3px solid var(--color-accent);
+        }
+
+        .nav-item.active {
+            background: var(--color-accent);
+            color: white;
+            border-left: 3px solid white;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--color-text-primary);
+        }
+
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--color-bg-secondary);
+                flex-direction: column;
+                padding: 2rem;
+                transition: left 0.3s ease;
+            }
+
+            .nav-menu.open {
+                left: 0;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav-container {
+                padding: 1rem;
+            }
+        }
+
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      line-height: 1.6;
+    }
+
+    .page-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top nav */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--color-bg-secondary);
+      border-bottom: 1px solid var(--color-border);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--brand-green), #4caf50);
+    }
+
+    .logo-text {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: var(--brand-green);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      margin-left: 1.5rem;
+    }
+
+    .nav-link {
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+    }
+
+    .nav-link:hover {
+      color: var(--color-text-primary);
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--color-text-secondary);
+      border-color: var(--color-border);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--color-text-secondary);
+    }
+
+    .btn-primary {
+      background: var(--color-accent);
+      color: #fff;
+      border-color: var(--color-accent);
+    }
+
+    .btn-primary:hover {
+      background: var(--color-accent-hover);
+      border-color: var(--color-accent-hover);
+    }
+
+    /* Main layout */
+    main {
+      flex: 1;
+      padding: 2rem 1.5rem 3rem;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+      align-items: center;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 3vw, 2.6rem);
+      margin-bottom: 0.75rem;
+      color: var(--brand-dark);
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 1.2rem;
+    }
+
+    .search-card {
+      background: var(--color-card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      padding: 1rem 1rem 1.25rem;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.05);
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 2fr 1.5fr 1.5fr auto;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .field-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-secondary);
+      margin-bottom: 0.25rem;
+    }
+
+    .field-input,
+    .field-select {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid var(--color-border);
+      padding: 0.55rem 0.9rem;
+      font-size: 0.9rem;
+      color: var(--color-text-primary);
+      background: var(--color-bg-secondary);
+    }
+
+    .field-input:focus,
+    .field-select:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 1px rgba(46, 125, 50, 0.1);
+    }
+
+    .search-meta {
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+    }
+
+    .hero-map {
+      border-radius: 16px;
+      border: 1px solid var(--color-border);
+      background: linear-gradient(135deg, #e0f2f1, #fffde7);
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem 1rem 1.25rem;
+    }
+
+    .hero-map-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-map-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .hero-map-chip {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(31, 41, 55, 0.1);
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .hero-map-body {
+      flex: 1;
+      border-radius: 12px;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(46, 125, 50, 0.12),
+        rgba(46, 125, 50, 0.12) 6px,
+        transparent 6px,
+        transparent 12px
+      );
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-pin {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--brand-green);
+      box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.35);
+    }
+
+    .pin-aonang {
+      top: 30%;
+      left: 60%;
+    }
+
+    .pin-krabitown {
+      top: 55%;
+      left: 35%;
+    }
+
+    .pin-klongmuang {
+      top: 25%;
+      left: 45%;
+    }
+
+    /* Lifestyle chips */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .chip {
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid var(--color-border);
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+      background: var(--color-card-bg);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .chip--primary {
+      border-color: rgba(46, 125, 50, 0.2);
+      background: rgba(46, 125, 50, 0.06);
+      color: var(--brand-green);
+      font-weight: 500;
+    }
+
+    /* Property cards grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .property-card {
+      background: var(--color-card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .property-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    .property-media {
+      position: relative;
+      padding-top: 62%;
+      background: #cbd5e1;
+    }
+
+    .property-badge {
+      position: absolute;
+      top: 0.6rem;
+      left: 0.6rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      background: rgba(15, 23, 42, 0.75);
+      color: #f9fafb;
+    }
+
+    .property-body {
+      padding: 0.75rem 0.85rem 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .property-price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .property-price {
+      font-weight: 700;
+      color: var(--brand-green);
+      font-size: 1rem;
+    }
+
+    .property-label {
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+    }
+
+    .property-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .property-meta {
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+    }
+
+    .property-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.25rem;
+    }
+
+    .tag {
+      padding: 0.16rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.03);
+      font-size: 0.72rem;
+      color: var(--color-text-secondary);
+    }
+
+    .tag--verified {
+      background: rgba(22, 163, 74, 0.08);
+      color: #166534;
+    }
+
+    .property-footer {
+      margin-top: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+    }
+
+    .link-inline {
+      color: var(--brand-green);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.8rem;
+    }
+
+    .link-inline:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      padding: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      main {
+        padding-inline: 1rem;
+      }
+
+      .navbar {
+        padding-inline: 1rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .search-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav-container">
+        <div class="nav-content">
+            <a href="index.html" class="logo">Klasana Express</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-item active" data-page="index">Home</a></li>
+                <li><a href="proposal.html" class="nav-item" data-page="proposal">Proposal</a></li>
+                <li><a href="roadmap.html" class="nav-item" data-page="roadmap">Roadmap</a></li>
+                <li><a href="dashboard.html" class="nav-item" data-page="dashboard">Dashboard</a></li>
+                <li><a href="add-property.html" class="nav-item" data-page="add-property">Add Property</a></li>
+            </ul>
+            <button class="mobile-toggle" id="mobileToggle">☰</button>
+        </div>
+    </nav>
+
+<div class="page-container">
+  <header class="navbar">
+    <div class="nav-left">
+      <div class="logo-mark"></div>
+      <div class="logo-text">KLASANA EXPRESS</div>
+      <nav class="nav-links">
+        <a href="#" class="nav-link">Buy</a>
+        <a href="#" class="nav-link">Sell</a>
+        <a href="#" class="nav-link">Krabi areas</a>
+        <a href="#" class="nav-link">Guides</a>
+      </nav>
+    </div>
+    <div class="nav-right">
+      <button class="btn btn-ghost">Log in</button>
+      <button class="btn btn-primary">List your property</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <h1 class="hero-title">Krabi homes under 7M THB</h1>
+        <p class="hero-subtitle">
+          Discover verified homes, condos, and villas in Krabi. Direct from owners and trusted local agents.
+        </p>
+
+        <div class="search-card">
+          <div class="search-row">
+            <div>
+              <div class="field-label">Location</div>
+              <input class="field-input" type="text" value="Krabi, Thailand" />
+            </div>
+            <div>
+              <div class="field-label">Price range</div>
+              <select class="field-select">
+                <option>Any price</option>
+                <option>Under 3M</option>
+                <option>3M – 5M</option>
+                <option>5M – 7M</option>
+              </select>
+            </div>
+            <div>
+              <div class="field-label">Property type</div>
+              <select class="field-select">
+                <option>Any type</option>
+                <option>Condo</option>
+                <option>House</option>
+                <option>Villa</option>
+                <option>Land</option>
+              </select>
+            </div>
+            <div style="display:flex;align-items:flex-end;">
+              <button class="btn btn-primary" style="width:100%;">Search homes</button>
+            </div>
+          </div>
+          <div class="search-meta">
+            Popular searches: Ao Nang sea view · Krabi Town houses · Klong Muang villas
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-map">
+        <div class="hero-map-header">
+          <div>
+            <div class="hero-map-title">Krabi focus</div>
+            <div style="font-size:0.8rem;color:var(--color-text-secondary);">
+              Ao Nang · Krabi Town · Klong Muang
+            </div>
+          </div>
+          <div class="hero-map-chip">Sub‑7M homes only</div>
+        </div>
+        <div class="hero-map-body">
+          <div class="map-pin pin-aonang"></div>
+          <div class="map-pin pin-krabitown"></div>
+          <div class="map-pin pin-klongmuang"></div>
+        </div>
+      </aside>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <h2 class="section-title">Explore by lifestyle</h2>
+        <a href="#" class="link-inline">View all areas →</a>
+      </div>
+      <div class="chips-row">
+        <button class="chip chip--primary">Close to the beach</button>
+        <button class="chip">Holiday rental ready</button>
+        <button class="chip">Family homes near schools</button>
+        <button class="chip">Sea view villas</button>
+        <button class="chip">Krabi Town condos</button>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <h2 class="section-title">Featured Krabi listings</h2>
+        <div style="font-size:0.82rem;color:var(--color-text-secondary);">
+          Sample layout – connect to your data later
+        </div>
+      </div>
+
+      <div class="cards-grid">
+        <article class="property-card">
+          <div class="property-media">
+            <div class="property-badge">Verified owner</div>
+          </div>
+          <div class="property-body">
+            <div class="property-price-row">
+              <div class="property-price">4.2M THB</div>
+              <div class="property-label">Ao Nang · 2 bed · 68 m²</div>
+            </div>
+            <h3 class="property-title">Sea view condo, 5 min to beach</h3>
+            <div class="property-meta">
+              Ideal for holiday rental, strong expat demand.
+            </div>
+            <div class="property-tags">
+              <span class="tag tag--verified">Verified</span>
+              <span class="tag">Sea view</span>
+              <span class="tag">Foreign quota</span>
+            </div>
+            <div class="property-footer">
+              <span>Listed 3 days ago</span>
+              <a href="#" class="link-inline">View details</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="property-card">
+          <div class="property-media">
+            <div class="property-badge">Agent listing</div>
+          </div>
+          <div class="property-body">
+            <div class="property-price-row">
+              <div class="property-price">3.5M THB</div>
+              <div class="property-label">Krabi Town · 3 bed · 120 m²</div>
+            </div>
+            <h3 class="property-title">Family home near new Central Krabi</h3>
+            <div class="property-meta">
+              Local neighborhood, easy access to schools and shopping.
+            </div>
+            <div class="property-tags">
+              <span class="tag">Krabi Town</span>
+              <span class="tag">Near Central</span>
+            </div>
+            <div class="property-footer">
+              <span>42 views this week</span>
+              <a href="#" class="link-inline">View details</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="property-card">
+          <div class="property-media">
+            <div class="property-badge">New</div>
+          </div>
+          <div class="property-body">
+            <div class="property-price-row">
+              <div class="property-price">6.8M THB</div>
+              <div class="property-label">Klong Muang · 3 bed · 210 m²</div>
+            </div>
+            <h3 class="property-title">Pool villa with rental potential</h3>
+            <div class="property-meta">
+              Quiet area, popular with long‑stay expats and families.
+            </div>
+            <div class="property-tags">
+              <span class="tag">Pool</span>
+              <span class="tag">Villa</span>
+              <span class="tag">Rental yield</span>
+            </div>
+            <div class="property-footer">
+              <span>Saved by 12 buyers</span>
+              <a href="#" class="link-inline">View details</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Klasana Express · Krabi‑only homes under 7M THB · Prototype layout
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Klasana Express – Add Listing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --brand-green: #2e7d32;
+      --brand-dark: #1f2933;
+      --brand-light: #f5f7fa;
+      --color-bg-primary: #f5f7fa;
+      --color-bg-secondary: #ffffff;
+      --color-text-primary: #1f2933;
+      --color-text-secondary: #626c7c;
+      --color-border: #e0e6ed;
+      --color-card-bg: #ffffff;
+      --color-accent: #2e7d32;
+      --color-accent-hover: #1b5e20;
+      --error: #dc2626;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-bg-primary: #020617;
+        --color-bg-secondary: #020617;
+        --color-text-primary: #f9fafb;
+        --color-text-secondary: #9ca3af;
+        --color-border: #1f2937;
+        --color-card-bg: #020617;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--color-bg-secondary);
+            border-bottom: 1px solid var(--color-border);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--brand-green);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0;
+        }
+
+        .nav-item {
+            padding: 0.75rem 1.5rem;
+            color: var(--color-text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover {
+            background: var(--color-bg-primary);
+            color: var(--color-accent);
+            border-left: 3px solid var(--color-accent);
+        }
+
+        .nav-item.active {
+            background: var(--color-accent);
+            color: white;
+            border-left: 3px solid white;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--color-text-primary);
+        }
+
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--color-bg-secondary);
+                flex-direction: column;
+                padding: 2rem;
+                transition: left 0.3s ease;
+            }
+
+            .nav-menu.open {
+                left: 0;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav-container {
+                padding: 1rem;
+            }
+        }
+
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+      background: radial-gradient(circle at top left, #e0f2f1 0, #f5f7fa 35%, #e5e7eb 100%);
+      color: var(--color-text-primary);
+      line-height: 1.5;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 1rem;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 880px;
+      background: var(--color-card-bg);
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      overflow: hidden;
+    }
+
+    .left {
+      padding: 1.5rem 1.6rem 1.7rem;
+    }
+
+    .right {
+      padding: 1.6rem 1.6rem 1.7rem;
+      border-left: 1px solid var(--color-border);
+      background: radial-gradient(circle at top, rgba(46, 125, 50, 0.16), transparent 60%);
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .logo-mark {
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, var(--brand-green), #4caf50);
+    }
+
+    .logo-text {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--brand-green);
+    }
+
+    h1 {
+      font-size: 1.35rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .subtitle {
+      font-size: 0.86rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 0.7rem;
+    }
+
+    /* Stepper */
+    .stepper {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 0.9rem;
+    }
+
+    .step-pill {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      background: var(--color-bg-secondary);
+    }
+
+    .step-pill--active {
+      background: var(--brand-green);
+      border-color: var(--brand-green);
+      color: #fff;
+    }
+
+    .stepper-line {
+      flex: 1;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--brand-green), rgba(148, 163, 184, 0.5));
+    }
+
+    form {
+      margin-top: 0.5rem;
+    }
+
+    fieldset {
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    fieldset[hidden] {
+      display: none;
+    }
+
+    .field-group {
+      margin-bottom: 0.6rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 0.15rem;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--color-border);
+      padding: 0.45rem 0.6rem;
+      font-size: 0.86rem;
+      background: var(--color-bg-secondary);
+      color: var(--color-text-primary);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 1px rgba(46, 125, 50, 0.12);
+    }
+
+    .row {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .row > .field-group {
+      flex: 1;
+      min-width: 130px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.15rem;
+    }
+
+    .chip {
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid var(--color-border);
+      font-size: 0.78rem;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      background: var(--color-bg-secondary);
+    }
+
+    .chip--on {
+      border-color: rgba(46, 125, 50, 0.4);
+      background: rgba(46, 125, 50, 0.06);
+      color: var(--brand-green);
+    }
+
+    .hint {
+      font-size: 0.74rem;
+      color: var(--color-text-secondary);
+      margin-top: 0.2rem;
+    }
+
+    .error {
+      color: var(--error);
+      font-size: 0.74rem;
+      margin-top: 0.15rem;
+      display: none;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.6rem;
+      margin-top: 0.9rem;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 0.82rem;
+      padding: 0.5rem 0.9rem;
+      cursor: pointer;
+      background: transparent;
+      color: var(--color-text-secondary);
+    }
+
+    .btn-primary {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-accent-hover);
+      border-color: var(--color-accent-hover);
+    }
+
+    .btn-outline {
+      border-color: var(--color-border);
+    }
+
+    .btn-ghost {
+      border-color: transparent;
+    }
+
+    .summary-card {
+      font-size: 0.82rem;
+      color: var(--color-text-secondary);
+      background: rgba(15, 23, 42, 0.02);
+      border-radius: 12px;
+      padding: 0.6rem 0.7rem;
+      margin-top: 0.4rem;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .summary-label {
+      font-size: 0.78rem;
+      color: var(--color-text-secondary);
+    }
+
+    .summary-value {
+      font-size: 0.82rem;
+      font-weight: 500;
+    }
+
+    .side-panel-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .side-panel-text {
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+      margin-top: 0.35rem;
+    }
+
+    .side-list {
+      margin-top: 0.7rem;
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+      padding-left: 1.1rem;
+    }
+
+    .side-highlight {
+      margin-top: 0.8rem;
+      font-size: 0.78rem;
+      padding: 0.55rem 0.6rem;
+      border-radius: 10px;
+      background: rgba(46, 125, 50, 0.08);
+      color: var(--brand-dark);
+    }
+
+    @media (max-width: 880px) {
+      .shell {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .right {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav-container">
+        <div class="nav-content">
+            <a href="index.html" class="logo">Klasana Express</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-item active" data-page="index">Home</a></li>
+                <li><a href="proposal.html" class="nav-item" data-page="proposal">Proposal</a></li>
+                <li><a href="roadmap.html" class="nav-item" data-page="roadmap">Roadmap</a></li>
+                <li><a href="dashboard.html" class="nav-item" data-page="dashboard">Dashboard</a></li>
+                <li><a href="add-property.html" class="nav-item" data-page="add-property">Add Property</a></li>
+            </ul>
+            <button class="mobile-toggle" id="mobileToggle">☰</button>
+        </div>
+    </nav>
+<div class="page">
+  <div class="shell">
+    <div class="left">
+      <div class="logo-row">
+        <div class="logo-mark"></div>
+        <div class="logo-text">KLASANA EXPRESS</div>
+      </div>
+      <h1>Add a Krabi listing</h1>
+      <p class="subtitle">
+        4 quick steps. Most owners finish in under 5 minutes. You can save as draft any time.
+      </p>
+
+      <div class="stepper" id="stepper">
+        <div class="step-pill step-pill--active" data-step="1">1</div>
+        <div class="step-pill" data-step="2">2</div>
+        <div class="step-pill" data-step="3">3</div>
+        <div class="step-pill" data-step="4">4</div>
+        <div class="stepper-line"></div>
+        <span><span id="currentStepLabel">Step 1</span> of 4</span>
+      </div>
+
+      <form id="listingForm">
+        <!-- Step 1: Basics -->
+        <fieldset id="step-1">
+          <div class="field-group">
+            <label for="title">Listing title</label>
+            <input id="title" type="text" placeholder="e.g. Sea view condo, 5 min walk to Ao Nang beach" />
+            <div class="hint">Clear and simple works best for buyers.</div>
+          </div>
+
+          <div class="row">
+            <div class="field-group">
+              <label for="price">Asking price (THB)</label>
+              <input id="price" type="number" placeholder="4200000" />
+            </div>
+            <div class="field-group">
+              <label for="property-type">Property type</label>
+              <select id="property-type">
+                <option>Condo</option>
+                <option>House</option>
+                <option>Villa</option>
+                <option>Land</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="ownership">Ownership</label>
+              <select id="ownership">
+                <option>Thai freehold</option>
+                <option>Condo foreign quota</option>
+                <option>Leasehold</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field-group">
+              <label for="beds">Bedrooms</label>
+              <input id="beds" type="number" min="0" placeholder="2" />
+            </div>
+            <div class="field-group">
+              <label for="baths">Bathrooms</label>
+              <input id="baths" type="number" min="0" placeholder="2" />
+            </div>
+            <div class="field-group">
+              <label for="size">Interior size (m²)</label>
+              <input id="size" type="number" min="0" placeholder="68" />
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Step 2: Location & lifestyle -->
+        <fieldset id="step-2" hidden>
+          <div class="field-group">
+            <label for="area">Area</label>
+            <select id="area">
+              <option>Ao Nang</option>
+              <option>Krabi Town</option>
+              <option>Klong Muang</option>
+              <option>Other Krabi</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="address">Address (optional)</label>
+            <input id="address" type="text" placeholder="Street / project name" />
+            <div class="hint">We only show an approximate location on the public map.</div>
+          </div>
+
+          <div class="field-group">
+            <label>Lifestyle tags</label>
+            <div class="chips">
+              <button type="button" class="chip chip--on">Close to beach</button>
+              <button type="button" class="chip">Sea view</button>
+              <button type="button" class="chip">Holiday rental</button>
+              <button type="button" class="chip">Family home</button>
+              <button type="button" class="chip">Near schools</button>
+              <button type="button" class="chip">Quiet area</button>
+            </div>
+            <div class="hint">Pick 2–4 tags that best match your property.</div>
+          </div>
+        </fieldset>
+
+        <!-- Step 3: Photos & description -->
+        <fieldset id="step-3" hidden>
+          <div class="field-group">
+            <label for="photos">Upload photos</label>
+            <input id="photos" type="file" multiple />
+            <div class="hint">
+              Add at least 5 clear photos: exterior, living room, bedrooms, kitchen, view. You’ll connect this to real storage later.
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="description">Description</label>
+            <textarea id="description"
+                      placeholder="Describe layout, condition, view, renovations, and what makes it special."></textarea>
+          </div>
+        </fieldset>
+
+        <!-- Step 4: Verification & publish -->
+        <fieldset id="step-4" hidden>
+          <div class="field-group">
+            <label for="seller-type">You are</label>
+            <select id="seller-type">
+              <option>Owner</option>
+              <option>Agent</option>
+              <option>Developer</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="verification-doc">Optional: upload title/ID for verification</label>
+            <input id="verification-doc" type="file" />
+            <div class="hint">
+              Klasana checks basic details only. Always get independent legal advice before buying or selling property.
+            </div>
+          </div>
+
+          <div class="summary-card">
+            <div class="summary-row">
+              <div class="summary-label">Title</div>
+              <div class="summary-value" id="summary-title">Sea view condo...</div>
+            </div>
+            <div class="summary-row">
+              <div class="summary-label">Price</div>
+              <div class="summary-value" id="summary-price">4,200,000 THB</div>
+            </div>
+            <div class="summary-row">
+              <div class="summary-label">Area</div>
+              <div class="summary-value" id="summary-area">Ao Nang</div>
+            </div>
+            <div class="summary-row">
+              <div class="summary-label">Size</div>
+              <div class="summary-value" id="summary-size">68 m² · 2 bed · 2 bath</div>
+            </div>
+          </div>
+
+          <div class="hint" style="margin-top:0.5rem;">
+            By publishing, you confirm that the information is accurate and that you have the right to market this property.
+          </div>
+        </fieldset>
+
+        <div class="controls">
+          <button type="button" class="btn btn-ghost" id="saveDraftBtn">Save draft</button>
+          <div>
+            <button type="button" class="btn btn-outline" id="prevBtn">Back</button>
+            <button type="button" class="btn btn-primary" id="nextBtn">Next step</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <aside class="right">
+      <div class="side-panel-title">Tips for a strong listing</div>
+      <p class="side-panel-text">
+        Buyers in Krabi scan dozens of listings. Clear photos, realistic pricing, and honest descriptions
+        help you stand out and get inquiries faster.
+      </p>
+      <ul class="side-list">
+        <li>Use natural light when taking photos.</li>
+        <li>Show the view, pool, and nearby landmarks.</li>
+        <li>Be honest about any renovation needs.</li>
+        <li>Mention travel times to beach, Central Krabi, and airport.</li>
+      </ul>
+      <div class="side-highlight">
+        Klasana Express focuses only on Krabi and sub‑7M THB properties, so your listing reaches people
+        already interested in this price range and location.
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const steps = 4;
+    let currentStep = 1;
+
+    const stepElems = {
+      stepperPills: document.querySelectorAll(".step-pill"),
+      currentStepLabel: document.getElementById("currentStepLabel"),
+      prevBtn: document.getElementById("prevBtn"),
+      nextBtn: document.getElementById("nextBtn")
+    };
+
+    function showStep(step) {
+      for (let i = 1; i <= steps; i++) {
+        const fs = document.getElementById("step-" + i);
+        if (fs) fs.hidden = i !== step;
+      }
+      stepElems.stepperPills.forEach(pill => {
+        const s = Number(pill.getAttribute("data-step"));
+        pill.classList.toggle("step-pill--active", s === step);
+      });
+      stepElems.currentStepLabel.textContent = "Step " + step;
+      stepElems.prevBtn.style.visibility = step === 1 ? "hidden" : "visible";
+      stepElems.nextBtn.textContent = step === steps ? "Publish" : "Next step";
+      currentStep = step;
+    }
+
+    function updateSummary() {
+      const title = document.getElementById("title").value || "Untitled listing";
+      const price = document.getElementById("price").value || "0";
+      const area = document.getElementById("area").value || "Krabi";
+      const beds = document.getElementById("beds").value || "-";
+      const baths = document.getElementById("baths").value || "-";
+      const size = document.getElementById("size").value || "-";
+
+      document.getElementById("summary-title").textContent = title;
+      document.getElementById("summary-price").textContent = Number(price).toLocaleString("en-US") + " THB";
+      document.getElementById("summary-area").textContent = area;
+      document.getElementById("summary-size").textContent = size + " m² · " + beds + " bed · " + baths + " bath";
+    }
+
+    stepElems.prevBtn.addEventListener("click", function () {
+      if (currentStep > 1) showStep(currentStep - 1);
+    });
+
+    stepElems.nextBtn.addEventListener("click", function () {
+      if (currentStep < steps) {
+        if (currentStep === steps - 1) {
+          updateSummary();
+        }
+        showStep(currentStep + 1);
+      } else {
+        alert("In a real app, this would publish your listing.");
+      }
+    });
+
+    document.getElementById("saveDraftBtn").addEventListener("click", function () {
+      alert("Draft saved locally (placeholder). Connect this to your backend.");
+    });
+
+    // Initialize
+    showStep(1);
+  })();
+</script>
+</body>
+</html>
