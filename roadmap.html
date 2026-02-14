@@ -4,185 +4,475 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Klasana Express Roadmap</title>
-    <style>
-        :root {
-            --brand-green: #2e7d32;
-            --brand-dark: #1f2933;
-            --brand-light: #f5f7fa;
-            --accent-gold: #d8a24a;
-            --border-soft: #e0e6ed;
-            /* FIXED: Added all missing CSS vars */
-            --color-bg-primary: #f5f7fa;
-            --color-bg-secondary: #ffffff;
-            --color-text-primary: #1f2933;
-            --color-text-secondary: #626c7c;
-            --color-accent: #2e7d32;
-            --color-accent-hover: #1b5e20;
-            --color-border: #e0e6ed;
-            --color-card-bg: #ffffff;
-        }
+  <style>
+:root {
+  --brand-green: #2e7d32;
+  --brand-dark: #1f2933;
+  --brand-light: #f5f7fa;
+  --accent-gold: #d8a24a;
+  --border-soft: #e0e6ed;
+  --color-bg-primary: #f5f7fa;
+  --color-bg-secondary: #ffffff;
+  --color-text-primary: #1f2933;
+  --color-text-secondary: #626c7c;
+  --color-accent: #2e7d32;
+  --color-accent-hover: #1b5e20;
+  --color-border: #e0e6ed;
+  --color-card-bg: #ffffff;
+}
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --brand-green: #32b8c6;
-                --brand-dark: #f5f5f5;
-                --brand-light: #1f2121;
-                --accent-gold: #d8a24a;
-                --border-soft: rgba(119, 124, 124, 0.3);
-                /* FIXED: Added dark mode vars */
-                --color-bg-primary: #1f2933;
-                --color-bg-secondary: #2d3748;
-                --color-text-primary: #f5f7fa;
-                --color-text-secondary: #9aa5b1;
-                --color-accent: #2e7d32;
-                --color-accent-hover: #4caf50;
-                --color-border: #4a5568;
-                --color-card-bg: #2d3748;
-            }
-        }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --brand-green: #32b8c6;
+    --brand-dark: #f5f5f5;
+    --brand-light: #1f2121;
+    --color-bg-primary: #1f2933;
+    --color-bg-secondary: #2d3748;
+    --color-text-primary: #f5f7fa;
+    --color-text-secondary: #9aa5b1;
+    --color-accent: #2e7d32;
+    --color-accent-hover: #4caf50;
+    --color-border: #4a5568;
+    --color-card-bg: #2d3748;
+  }
+}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { 
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif; 
+  background: var(--brand-light); 
+  color: var(--brand-dark); 
+  line-height: 1.6; 
+  overflow-x: hidden; 
+}
 
-        body {
-            margin: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: var(--brand-light);
-            color: var(--brand-dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+.nav-container {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+  z-index: 1000;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
 
-        /* FIXED NAV - Cleaned duplicates, proper structure */
-        .nav-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: var(--color-bg-secondary);
-            border-bottom: 1px solid var(--color-border);
-            z-index: 1000;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
+.nav-content {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+}
 
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.logo {
+  font-size: 1.5rem; font-weight: 700;
+  color: var(--brand-green); text-decoration: none;
+}
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--brand-green);
-            text-decoration: none;
-        }
+.nav-menu {
+  display: flex; list-style: none; gap: 0;
+}
 
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 0;
-        }
+.nav-item {
+  padding: 0.75rem 1.5rem;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
 
-        .nav-item {
-            padding: 0.75rem 1.5rem;
-            color: var(--color-text-primary);
-            text-decoration: none;
-            font-weight: 500;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
+.nav-item:hover {
+  background: var(--color-bg-primary);
+  color: var(--color-accent);
+  border-left: 3px solid var(--color-accent);
+}
 
-        .nav-item:hover {
-            background: var(--color-bg-primary);
-            color: var(--color-accent);
-            border-left: 3px solid var(--color-accent);
-        }
+.nav-item.active {
+  background: var(--color-accent);
+  color: white;
+  border-left: 3px solid white;
+}
 
-        .nav-item.active {
-            background: var(--color-accent);
-            color: white;
-            border-left: 3px solid white;
-        }
+.mobile-toggle {
+  display: none; background: none; border: none;
+  font-size: 1.5rem; cursor: pointer;
+  color: var(--color-text-primary);
+}
 
-        .mobile-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--color-text-primary);
-        }
+.main-content {
+  margin-top: 80px; padding: 2rem;
+  max-width: 1200px; margin-left: auto; margin-right: auto;
+}
 
-        .main-content {
-            margin-top: 80px;
-            padding: 2rem;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+@media (max-width: 768px) {
+  .nav-menu {
+    position: fixed; top: 80px; left: -100%; width: 100%;
+    height: calc(100vh - 80px); background: var(--color-bg-secondary);
+    flex-direction: column; padding: 2rem;
+    transition: left 0.3s ease;
+  }
+  .nav-menu.open { left: 0; }
+  .mobile-toggle { display: block; }
+  .nav-container { padding: 1rem; }
+}
 
-        @media (max-width: 768px) {
-            .nav-menu {
-                position: fixed;
-                top: 80px;
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - 80px);
-                background: var(--color-bg-secondary);
-                flex-direction: column;
-                padding: 2rem;
-                transition: left 0.3s ease;
-            }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, sans-serif;
+      background: var(--brand-light);
+      color: var(--brand-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-            .nav-menu.open {
-                left: 0;
-            }
+    .ke-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-            .mobile-toggle {
-                display: block;
-            }
+    /* HEADER */
+    .ke-header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-soft);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
 
-            .nav-container {
-                padding: 1rem;
-            }
-        }
+    @media (prefers-color-scheme: dark) {
+      .ke-header {
+        background: #262828;
+      }
+    }
 
-        /* Your existing roadmap styles (ke-header, ke-main, etc.) - kept intact */
-        .ke-page { min-height: 100vh; display: flex; flex-direction: column; }
-        .ke-header { background: #ffffff; border-bottom: 1px solid var(--border-soft); padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; position: sticky; top: 80px; z-index: 10; }
-        @media (prefers-color-scheme: dark) { .ke-header { background: #262828; } }
-        /* ... rest of your roadmap styles here ... */
+    .ke-logo-slot {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 40px;
+    }
 
-        /* Add all your existing .ke-card, h1-h4, table, etc. styles below */
-        h1 { font-size: 32px; margin: 0 0 12px; font-weight: 600; color: var(--brand-dark); }
-        h2 { font-size: 24px; margin: 32px 0 12px; font-weight: 600; color: var(--brand-dark); border-bottom: 2px solid var(--brand-green); padding-bottom: 8px; }
-        /* Continue with all your other styles... */
-    </style>
+    .ke-logo-slot-placeholder {
+      width: 140px;
+      height: 40px;
+      border-radius: 4px;
+      border: 1px dashed var(--border-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #9aa5b1;
+      background: #fafbfc;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .ke-logo-slot-placeholder {
+        color: #a7a9a9;
+        background: #1f2121;
+      }
+    }
+
+    .ke-header-title {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .ke-header-title-main {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--brand-dark);
+      letter-spacing: 0.02em;
+    }
+
+    .ke-header-title-sub {
+      font-size: 12px;
+      color: #6b778c;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .ke-header-title-sub {
+        color: #a7a9a9;
+      }
+    }
+
+    /* MAIN LAYOUT */
+    .ke-main {
+      max-width: 1400px;
+      width: 100%;
+      margin: 24px auto 40px;
+      padding: 0 16px 40px;
+    }
+
+    .ke-card {
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .ke-card {
+        background: #262828;
+      }
+    }
+
+    /* TYPOGRAPHY */
+    h1 {
+      font-size: 32px;
+      margin: 0 0 12px;
+      font-weight: 600;
+      color: var(--brand-dark);
+    }
+
+    h2 {
+      font-size: 24px;
+      margin: 32px 0 12px;
+      font-weight: 600;
+      color: var(--brand-dark);
+      border-bottom: 2px solid var(--brand-green);
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      font-size: 20px;
+      margin: 24px 0 10px;
+      font-weight: 600;
+      color: var(--brand-dark);
+    }
+
+    h4 {
+      font-size: 16px;
+      margin: 18px 0 8px;
+      font-weight: 600;
+      color: var(--brand-green);
+    }
+
+    p {
+      margin: 0 0 12px;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    ul, ol {
+      margin: 0 0 12px 24px;
+      padding: 0;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--brand-green);
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border-soft);
+      margin: 24px 0;
+    }
+
+    /* TABLES */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 20px;
+      font-size: 13px;
+      overflow-x: auto;
+      display: block;
+    }
+
+    thead {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    tbody {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    th, td {
+      border: 1px solid var(--border-soft);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+      display: table-cell;
+    }
+
+    th {
+      background: #f9fafb;
+      font-weight: 600;
+      color: var(--brand-dark);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      th {
+        background: #2b2d2d;
+      }
+    }
+
+    /* BADGES & HIGHLIGHTS */
+    .highlight {
+      background: rgba(46, 125, 50, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      color: var(--brand-green);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .highlight {
+        background: rgba(50, 184, 198, 0.15);
+        color: var(--brand-green);
+      }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .ke-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .ke-card {
+        padding: 16px;
+      }
+      h1 {
+        font-size: 26px;
+      }
+      h2 {
+        font-size: 20px;
+      }
+      h3 {
+        font-size: 18px;
+      }
+      table {
+        font-size: 12px;
+      }
+      th, td {
+        padding: 8px;
+      }
+    }
+
+    /* SECTION SPACING */
+    section {
+      margin-bottom: 40px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    section:last-child {
+      margin-bottom: 0;
+    }
+
+    /* CHECKMARKS */
+    .checkmark {
+      color: var(--brand-green);
+      font-weight: bold;
+      margin-right: 4px;
+    }
+
+    /* NAVIGATION */
+    .nav-item {
+      padding: 8px 12px;
+      margin: 4px 0;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--brand-dark);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .nav-item:hover {
+      background: rgba(46, 125, 50, 0.08);
+      color: var(--brand-green);
+    }
+
+    .nav-item.active {
+      background: rgba(46, 125, 50, 0.12);
+      color: var(--brand-green);
+      font-weight: 600;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      nav {
+        background: #262828 !important;
+      }
+      .nav-item:hover {
+        background: rgba(50, 184, 198, 0.12);
+        color: var(--brand-green);
+      }
+      .nav-item.active {
+        background: rgba(50, 184, 198, 0.18);
+        color: var(--brand-green);
+      }
+    }
+
+    /* STAT CARDS */
+    .stat-card {
+      background: rgba(46, 125, 50, 0.05);
+      border: 1px solid rgba(46, 125, 50, 0.2);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .stat-card {
+        background: rgba(50, 184, 198, 0.08);
+        border-color: rgba(50, 184, 198, 0.2);
+      }
+    }
+
+    /* MOBILE RESPONSIVE */
+    @media (max-width: 1024px) {
+      nav {
+        display: none;
+      }
+      .ke-main > div[style*="margin-left"] {
+        margin-left: 0 !important;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- FIXED NAV - Working version -->
-    <nav class="nav-container">
+  <nav class="nav-container">
         <div class="nav-content">
             <a href="index.html" class="logo">Klasana Express</a>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html" class="nav-item" data-page="index">Home</a></li>
+                <li><a href="index.html" class="nav-item active" data-page="index">Home</a></li>
                 <li><a href="proposal.html" class="nav-item" data-page="proposal">Proposal</a></li>
-                <li><a href="roadmap.html" class="nav-item active" data-page="roadmap">Roadmap</a></li>
+                <li><a href="roadmap.html" class="nav-item" data-page="roadmap">Roadmap</a></li>
                 <li><a href="dashboard.html" class="nav-item" data-page="dashboard">Dashboard</a></li>
                 <li><a href="add-property.html" class="nav-item" data-page="add-property">Add Property</a></li>
             </ul>
             <button class="mobile-toggle" id="mobileToggle">☰</button>
         </div>
     </nav>
-
   <div class="ke-page">
     <header class="ke-header">
       <div class="ke-logo-slot">
@@ -1072,6 +1362,18 @@
   </div>
 
 <script>
+  document.addEventListener('DOMContentLoaded', () => {
+  // Set active nav item based on URL
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.page === currentPage.replace('.html', ''));
+  });
+
+  // Mobile menu toggle
+  document.getElementById('mobileToggle').addEventListener('click', () => {
+    document.getElementById('navMenu').classList.toggle('open');
+  });
+});
   // Smooth navigation and progress tracking
   const navItems = document.querySelectorAll('.nav-item');
   const sections = document.querySelectorAll('.section');
